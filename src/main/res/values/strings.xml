@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Chillax</string>
+    <string name="raining_sound_button">raining sound button</string>
+    <string name="bonfire_sound_button">bonfire sound button</string>
 </resources>
