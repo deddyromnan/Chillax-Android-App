@@ -8,9 +8,10 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private MediaPlayer mCurrentPlayer = new MediaPlayer(), mNextPlayer;
     private int mResId;
+
     private MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
@@ -20,21 +21,6 @@ public class MainActivity extends AppCompatActivity {
             Log.d("MediaPlayer", "Looped");
         }
     };
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        final ImageView rainBtn = findViewById(R.id.rainBtn);
-        rainBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mResId = R.raw.raining_sound;
-                setCurrentPlayer();
-            }
-        });
-    }
 
     private void setCurrentPlayer() {
         if (!mCurrentPlayer.isPlaying()) {
@@ -50,9 +36,35 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        final ImageView rainBtn = findViewById(R.id.rainBtn);
+        rainBtn.setOnClickListener(this);
+
+        final ImageView bonfireBtn = findViewById(R.id.bonfireBtn);
+        bonfireBtn.setOnClickListener(this);
+    }
+
     private void createNextMediaPlayer() {
         mNextPlayer = MediaPlayer.create(this, mResId);
         mCurrentPlayer.setNextMediaPlayer(mNextPlayer);
         mCurrentPlayer.setOnCompletionListener(onCompletionListener);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.rainBtn:
+                mResId = R.raw.raining_sound;
+                setCurrentPlayer();
+                break;
+            case R.id.bonfireBtn:
+                mResId = R.raw.bonfire_sound;
+                setCurrentPlayer();
+                break;
+        }
     }
 }
