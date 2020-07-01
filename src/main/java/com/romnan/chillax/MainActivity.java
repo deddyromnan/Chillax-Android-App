@@ -12,6 +12,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MediaPlayer mCurrentPlayer = new MediaPlayer(), mNextPlayer;
     private int mResId;
 
+    //TODO : make the sound switchable
+    //TODO : make the ripple effect easier to see
+
     private MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mCurrentPlayer.start();
                 }
             });
+            createNextMediaPlayer();
         } else {
             mCurrentPlayer.pause();
         }
