@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private MediaPlayer mCurrentPlayer = new MediaPlayer(), mNextPlayer;
     private int mResId;
-    private boolean switched = false;
 
     private MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
@@ -24,22 +23,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     };
 
     private void setCurrentPlayer() {
-        if (!mCurrentPlayer.isPlaying()) {
-            mCurrentPlayer = MediaPlayer.create(MainActivity.this, mResId);
-            mCurrentPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    mCurrentPlayer.start();
-                }
-            });
-            createNextMediaPlayer();
-        } else if (switched) {
-            mCurrentPlayer.pause();
-            switched = false;
-            setCurrentPlayer();
-        } else {
-            mCurrentPlayer.pause();
-        }
+        mCurrentPlayer = MediaPlayer.create(MainActivity.this, mResId);
+        mCurrentPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mCurrentPlayer.start();
+            }
+        });
+        createNextMediaPlayer();
     }
 
     @Override
@@ -60,14 +51,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mCurrentPlayer.setOnCompletionListener(onCompletionListener);
     }
 
-    private void setResId(int resId) {
-        if (mResId != 0 && mResId != resId) {
+    private void playSound(int resId) {
+        if (mResId == resId && mCurrentPlayer.isPlaying()) {
+            mCurrentPlayer.pause();
+        } else if (mResId != 0) {
             mResId = resId;
-            switched = true;
+            mCurrentPlayer.pause();
             setCurrentPlayer();
         } else {
             mResId = resId;
-            switched = false;
             setCurrentPlayer();
         }
     }
@@ -76,10 +68,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rainBtn:
-                setResId(R.raw.raining_sound);
+                playSound(R.raw.raining_sound);
                 break;
             case R.id.bonfireBtn:
-                setResId(R.raw.bonfire_sound);
+                playSound(R.raw.bonfire_sound);
                 break;
         }
     }
