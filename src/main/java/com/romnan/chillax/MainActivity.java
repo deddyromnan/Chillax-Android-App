@@ -11,9 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private MediaPlayer mCurrentPlayer = new MediaPlayer(), mNextPlayer;
     private int mResId;
-
-    //TODO : make the sound switchable
-    //TODO : make the ripple effect easier to see
+    private boolean switched = false;
 
     private MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
@@ -35,6 +33,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
             createNextMediaPlayer();
+        } else if (switched) {
+            mCurrentPlayer.pause();
+            switched = false;
+            setCurrentPlayer();
         } else {
             mCurrentPlayer.pause();
         }
@@ -58,16 +60,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mCurrentPlayer.setOnCompletionListener(onCompletionListener);
     }
 
+    private void setResId(int resId) {
+        if (mResId != 0 && mResId != resId) {
+            mResId = resId;
+            switched = true;
+            setCurrentPlayer();
+        } else {
+            mResId = resId;
+            switched = false;
+            setCurrentPlayer();
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rainBtn:
-                mResId = R.raw.raining_sound;
-                setCurrentPlayer();
+                setResId(R.raw.raining_sound);
                 break;
             case R.id.bonfireBtn:
-                mResId = R.raw.bonfire_sound;
-                setCurrentPlayer();
+                setResId(R.raw.bonfire_sound);
                 break;
         }
     }

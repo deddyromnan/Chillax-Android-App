@@ -4,5 +4,10 @@
     <color name="colorPrimaryDark">#121212</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="darkGrey">#121212</color>
+    <color name="grey">#1e1e1e</color>
+    <color name="lightPurple">#c38fff</color>
+    <color name="lightBlue">#8FFFFB</color>
+    <color name="lightGreen">#CBFF8F</color>
+    <color name="lightRed">#FF8F93</color>
     <color name="teal">#03dac5</color>
 </resources>
