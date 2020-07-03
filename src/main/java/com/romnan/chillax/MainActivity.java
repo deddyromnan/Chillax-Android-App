@@ -52,12 +52,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void playSound(int resId) {
-        if (mResId == resId && mCurrentPlayer.isPlaying()) {
-            mCurrentPlayer.pause();
-        } else if (mResId != 0) {
+        if (mResId != 0 && mResId != resId) {
             mResId = resId;
             mCurrentPlayer.pause();
             setCurrentPlayer();
+        } else if (mCurrentPlayer.isPlaying()) {
+            mCurrentPlayer.pause();
         } else {
             mResId = resId;
             setCurrentPlayer();
