@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         final ImageView bonfireBtn = findViewById(R.id.bonfireBtn);
         bonfireBtn.setOnClickListener(this);
+
+        final ImageView forestBtn = findViewById(R.id.forestBtn);
+        forestBtn.setOnClickListener(this);
     }
 
     private void createNextMediaPlayer() {
@@ -72,6 +75,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.bonfireBtn:
                 playSound(R.raw.bonfire_sound);
+                break;
+            case R.id.forestBtn:
+                playSound(R.raw.forest_sound);
                 break;
         }
     }
